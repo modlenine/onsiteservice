@@ -1,0 +1,270 @@
+<template>
+  <div id="list">
+
+    <div class="main-container">
+      <div class="pd-ltr-20">
+      
+          <div class="row">
+            <div class="col-xl-12 mb-30">
+              <div class="card-box height-100-p pd-20">
+                <div class="mt-5"></div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <router-link to="/addData" type="button" id="btn-addMachineData" class="btn btn-primary btnIndex">
+                      <i class="fi-plus mr-2"></i>เพิ่มข้อมูล</router-link>
+                  </div>
+                </div>
+                <hr>
+                  <FilterData/>
+                <div class="mt-4"></div>
+                <h3 style="text-align:center;" class="mb-3">รายการแจ้งซ่อม</h3>
+               
+                  <table id="dataMainList" class="table table-striped table-bordered" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>เลขที่รายการ</th>
+                        <th>ประเภทงาน</th>
+                        <th>อุปกรณ์</th>
+                        <th>ผู้แจ้ง</th>
+                        <th>แผนก</th>
+                        <th>วันที่แจ้ง</th>
+                        <th>ผู้ดำเนินการ</th>
+                        <th>สถานะ</th>
+                      </tr>
+                    </thead>
+                  </table>
+                
+
+              </div>
+            </div>
+          </div>
+
+      </div>
+	  </div>
+
+  </div>
+</template>
+
+<script>
+import $ from 'jquery';
+import FilterData from '@/components/FilterData.vue';
+
+
+
+
+export default {
+  name:'List',
+  components:{
+    FilterData
+  },
+  data(){
+    return{
+      url:'http://localhost/intsys/onsite_backend/api/api_loadOnsiteList',
+    }
+  },
+
+  created() {
+    
+  },
+  mounted() {
+    this.loadonsiteList();
+    this.loadFilterOnSessionStorage();
+
+    const proxy = this;
+
+    $(document).on('click' , '.onsite_formno' , function(){
+      const onsite_formno = $(this).attr("data_formno");
+
+      proxy.$router.push('/viewdata/'+onsite_formno);
+    });
+
+
+
+    $(document).on('click' , '#btn-dateSearch' , function(){
+
+      let startDate_filter = $('#startDate').val();
+			let endDate_filter = $('#endDate').val();
+			let workType_filter = $('#filterBy-worktype').val();
+			let dept_filter = $('#filterBy-dept').val();
+			let userProgress_filter = $('#filterBy-userProgress').val();
+			let status_filter = $('#filterBy-status').val();
+
+			let filterObject = {
+				"startDate_filter":startDate_filter,
+				"endDate_filter":endDate_filter,
+				"workType_filter":workType_filter,
+				"dept_filter":dept_filter,
+				"userProgress_filter":userProgress_filter,
+				"status_filter":status_filter
+			};
+
+			//create session storage
+			sessionStorage.setItem('filterObject' , JSON.stringify(filterObject));
+
+			// let table = $('#dataMainList').DataTable();
+			// table.state.clear();
+
+			// proxy.loadonsiteList();
+		});
+
+    $('#btn-dateClear').click(function(){
+			sessionStorage.removeItem("filterObject");
+			// let table = $('#dataMainList').DataTable();
+			// table.state.clear();
+
+      	$('#startDate').val('');
+				$('#endDate').val('');
+				$('#filterBy-worktype').val('');
+				$('#filterBy-dept').val('');
+				$('#filterBy-userProgress').val('');
+				$('#filterBy-status').val('');
+
+			// proxy.loadonsiteList();
+		});
+
+  },
+  methods: {
+    loadonsiteList()
+    {
+
+      let startDate_filter = $('#startDate').val();
+			let endDate_filter = $('#endDate').val();
+			let workType_filter = $('#filterBy-worktype').val();
+			let dept_filter = $('#filterBy-dept').val();
+			let userProgress_filter = $('#filterBy-userProgress').val();
+			let status_filter = $('#filterBy-status').val();
+
+
+			if(startDate_filter == "" || startDate_filter == null){
+				startDate_filter = "0";
+			}
+
+			if(endDate_filter == "" || endDate_filter == null){
+				endDate_filter = "0";
+			}
+
+			if(workType_filter == "" || workType_filter == null){
+				workType_filter = "0";
+			}
+
+			if(userProgress_filter == "" || userProgress_filter == null){
+				userProgress_filter = "0";
+			}
+
+			if(dept_filter == "" || dept_filter == null){
+				dept_filter = "0";
+			}
+
+			if(status_filter == "" || status_filter == null){
+				status_filter = "0";
+			}else{
+				status_filter = status_filter.replace(/\s+/g,"-");
+			}
+
+			console.log(startDate_filter+"/"+endDate_filter+"/"+workType_filter+"/"+userProgress_filter+"/"+dept_filter+"/"+status_filter);
+
+        let thid = 1;
+        $('#dataMainList thead th').each(function() {
+          var title = $(this).text();
+          $(this).html(title + ' <input type="text" id="dataMainList'+thid+'" class="col-search-input" placeholder="Search ' + title + '" />');
+          thid++;
+        });
+
+        	$('#dataMainList').DataTable().destroy();
+            var table = $('#dataMainList').DataTable({
+                        "scrollX": true,
+                        "processing": true,
+                        "serverSide": true,
+                        "stateSave": true,
+                        stateLoadParams: function(settings, data) {
+                            for (let i = 0; i < data.columns["length"]; i++) {
+                                let col_search_val = data.columns[i].search.search;
+                                if (col_search_val !== "") {
+                                    $("input", $("#dataMainList thead th")[i]).val(col_search_val);
+                                }
+                            }
+                        },
+                        "ajax": {
+                            "url":"http://localhost/intsys/onsite_backend/api/api_loadOnsiteList/"+startDate_filter+'/'+endDate_filter+'/'+workType_filter+'/'+dept_filter+'/'+userProgress_filter+'/'+status_filter,
+                        },
+                        order: [
+                            [0, 'desc']
+                        ],
+                        columnDefs: [{
+                                targets: "_all",
+                                orderable: false
+                            },
+                        ],
+                });
+
+            table.columns().every(function() {
+                var table = this;
+                $('input', this.header()).on('keyup change', function() {
+                    if (table.search() !== this.value) {
+                        table.search(this.value).draw();
+                    }
+                });
+            });
+
+            
+
+            // $('#normal_list6 , #normal_list2').prop('readonly' , true).css({
+            //     'background-color':'#F5F5F5',
+            //     'cursor':'no-drop'
+            // });
+    },
+    loadFilterOnSessionStorage()
+		{
+			let getfilterObject = sessionStorage.getItem("filterObject");
+			console.log(JSON.parse(getfilterObject));
+
+			if(getfilterObject != null){
+				let startDate_filter = JSON.parse(getfilterObject).startDate_filter;
+				let endDate_filter = JSON.parse(getfilterObject).endDate_filter;
+				let workType_filter = JSON.parse(getfilterObject).workType_filter;
+				let dept_filter = JSON.parse(getfilterObject).dept_filter;
+				let userProgress_filter = JSON.parse(getfilterObject).userProgress_filter;
+				let status_filter = JSON.parse(getfilterObject).status_filter;
+
+				$('#startDate').val(startDate_filter);
+				$('#endDate').val(endDate_filter);
+				$('#filterBy-worktype').val(workType_filter);
+				$('#filterBy-dept').val(dept_filter);
+				$('#filterBy-userProgress').val(userProgress_filter);
+				$('#filterBy-status').val(status_filter);
+			}
+
+			// this.loadonsiteList();
+		}
+    
+
+  },
+  
+}
+</script>
+
+<style scoped>
+  #dataMainList{
+    width:100% !important;
+  }
+
+
+@media (min-width:1024px) and (max-width:1439px){
+	
+}
+
+@media (min-width:768px) and (max-width:1023px){
+	#dataMainList{
+    width:1300px !important;
+  }
+
+
+}
+
+@media (min-width:320px) and (max-width:767px) {
+	#dataMainList{
+    width:1200px !important;
+  }
+
+}
+</style>
