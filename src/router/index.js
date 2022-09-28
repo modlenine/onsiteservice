@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import List from '@/views/List.vue'
+import Add from '@/views/Add.vue'
+import Viewdata from '@/views/Viewdata.vue'
+import Service from '@/views/Service.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +18,21 @@ const routes = [
     path: '/list',
     name: 'List',
     component: List
+  },
+  {
+    path: '/addData',
+    name: 'Add',
+    component: Add
+  },
+  {
+    path:'/viewdata/:id',
+    name:'Viewdata',
+    component:Viewdata
+  },
+  {
+    path: '/service_type',
+    name: 'Service',
+    component: Service
   },
   // {
   //   path: '/list',

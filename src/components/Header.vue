@@ -81,9 +81,9 @@
                                 <div class="sidebar-small-cap mtext">ตั้งค่า</div>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-toggle no-arrow">
+                                <router-link to='/service_type' class="dropdown-toggle no-arrow">
                                     <span class="micon dw dw-add-file1 hicon"></span><span class="mtext">เพิ่มหัวข้อการบริการ</span>
-                                </a>
+                                </router-link>
                             </li>
                             
                         </ul>
@@ -106,6 +106,7 @@ export default {
     data() {
         return {
             url:this.getUrl(),
+            baseurl:this.baseUrl(),
             userImage:'',
             userFullname:'',
             resultUserData:[]
@@ -115,11 +116,13 @@ export default {
         this.resultUserData = JSON.parse(this.userDataProps);
     },
     mounted() {
+        const proxy = this;
         this.getUserData();
         console.log(this.resultUserData);
+        console.log('Public path'+process.env.NODE_ENV);
         $('#logoutBtn').click(function(){
             localStorage.removeItem('userData');
-            location.href = '/login'
+            location.href = proxy.baseurl;
         });
 
         $(document).on('click' , '.header-left' , function(){
@@ -150,6 +153,13 @@ export default {
             }
 
         },
+        baseUrl(){
+            switch (process.env.NODE_ENV) {
+                case 'production': return '/intsys/onsiteservice/'
+                case 'development': return '/'
+                default: return ''
+            }
+        }
 
     },
 }

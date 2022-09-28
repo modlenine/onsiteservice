@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      userData:null
+      userData:this.getSessionStorage(),
     }
   },
   created() {
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     getSessionStorage(){
-      this.userData = sessionStorage.getItem("userData");
+      this.userData = localStorage.getItem("userData");
       console.log(JSON.parse(this.userData));
     }
   },

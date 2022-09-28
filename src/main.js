@@ -6,7 +6,11 @@ import store from './store'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import 'popper.js';
+import 'bootstrap';
+
 import 'datatables.net-bs4';
+import 'moment';
 
 import "zebra_datepicker/dist/css/default/zebra_datepicker.min.css";
 import "zebra_datepicker/dist/zebra_datepicker.min.js";

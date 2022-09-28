@@ -59,7 +59,7 @@ export default {
   },
   data(){
     return{
-      url:'http://localhost/intsys/onsite_backend/api/api_loadOnsiteList',
+      url:this.getUrl(),
     }
   },
 
@@ -75,7 +75,10 @@ export default {
     $(document).on('click' , '.onsite_formno' , function(){
       const onsite_formno = $(this).attr("data_formno");
 
-      proxy.$router.push('/viewdata/'+onsite_formno);
+      // proxy.$router.push('/viewdata/'+onsite_formno);
+
+       const path = `/viewdata/${onsite_formno}`;
+        if (proxy.$route.path !== path) proxy.$router.push(path)
     });
 
 
@@ -99,16 +102,16 @@ export default {
 			};
 
 			//create session storage
-			sessionStorage.setItem('filterObject' , JSON.stringify(filterObject));
+			localStorage.setItem('filterObject' , JSON.stringify(filterObject));
 
-			// let table = $('#dataMainList').DataTable();
-			// table.state.clear();
+			let table = $('#dataMainList').DataTable();
+			table.state.clear();
 
-			// proxy.loadonsiteList();
+			proxy.loadonsiteList();
 		});
 
     $('#btn-dateClear').click(function(){
-			sessionStorage.removeItem("filterObject");
+			localStorage.removeItem("filterObject");
 			// let table = $('#dataMainList').DataTable();
 			// table.state.clear();
 
@@ -119,7 +122,7 @@ export default {
 				$('#filterBy-userProgress').val('');
 				$('#filterBy-status').val('');
 
-			// proxy.loadonsiteList();
+			proxy.loadonsiteList();
 		});
 
   },
@@ -185,7 +188,7 @@ export default {
                             }
                         },
                         "ajax": {
-                            "url":"http://localhost/intsys/onsite_backend/api/api_loadOnsiteList/"+startDate_filter+'/'+endDate_filter+'/'+workType_filter+'/'+dept_filter+'/'+userProgress_filter+'/'+status_filter,
+                            "url":this.url+'intsys/onsite_backend/api/api_loadOnsiteList/'+startDate_filter+'/'+endDate_filter+'/'+workType_filter+'/'+dept_filter+'/'+userProgress_filter+'/'+status_filter,
                         },
                         order: [
                             [0, 'desc']
@@ -215,7 +218,7 @@ export default {
     },
     loadFilterOnSessionStorage()
 		{
-			let getfilterObject = sessionStorage.getItem("filterObject");
+			let getfilterObject = localStorage.getItem("filterObject");
 			console.log(JSON.parse(getfilterObject));
 
 			if(getfilterObject != null){
@@ -235,7 +238,12 @@ export default {
 			}
 
 			// this.loadonsiteList();
-		}
+		},
+    getUrl(){
+        if(typeof window !== "undefined"){
+            return window.location.protocol+"//"+window.location.hostname+"/";
+        }
+    },
     
 
   },

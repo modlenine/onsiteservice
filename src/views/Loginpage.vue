@@ -79,6 +79,7 @@ export default {
 	data() {
 		return {
 			url:this.getUrl(),
+			baseurl:this.baseUrl()
 		}
 	},
 	created() {
@@ -91,6 +92,7 @@ export default {
         submitLogin(){
             const form = $('#frm_login')[0];
 			const data = new FormData(form);
+			const proxy = this;
 
 			axios.post(this.url+'intsys/onsite_backend/api/checklogin' , data,{
 
@@ -114,7 +116,7 @@ export default {
 						'datenow':res.data.datenow
 					}
 
-					sessionStorage.setItem('userData' , JSON.stringify(userData));
+					localStorage.setItem('userData' , JSON.stringify(userData));
 
 					Swal.fire({
 						title: 'ลงชื่อเข้าใช้สำเร็จ',
@@ -122,7 +124,7 @@ export default {
 						showConfirmButton: false,
 						timer:1000
 					}).then(function(){
-						location.href = '/';
+						location.href = proxy.baseurl;
 					});
 				}else if(res.data.status == "Login failed"){
 					Swal.fire({
@@ -131,7 +133,7 @@ export default {
 						showConfirmButton: false,
 						timer:1000
 					}).then(function(){
-						location.href = '/';
+						location.href = proxy.baseurl;
 					});
 				}else if(res.data.status == "Login failed please fill username and password"){
 					Swal.fire({
@@ -140,7 +142,7 @@ export default {
 						showConfirmButton: false,
 						timer:1000
 					}).then(function(){
-						location.href = '/';
+						location.href = proxy.baseurl;
 					});
 				}
 			});
@@ -150,6 +152,13 @@ export default {
                 return window.location.protocol+"//"+window.location.hostname+"/";
             }
         },
+		baseUrl(){
+            switch (process.env.NODE_ENV) {
+                case 'production': return '/intsys/onsiteservice/'
+                case 'development': return '/'
+                default: return ''
+            }
+        }
 
 
     },
