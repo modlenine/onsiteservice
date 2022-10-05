@@ -1,10 +1,18 @@
 <template>
   <div id="app">
     <div v-if="userData !== null">
-      <Header
-        :userDataProps="this.userData"
-      />
-      <router-view></router-view>
+      <div v-if="userData.DeptCode == 1002">
+        <Header
+          :userDataProps="this.userData"
+        />
+          <router-view></router-view>
+      </div>
+      <div v-else>
+        <Loginpage
+          :accessData="false"
+          :userDataProps="this.userData"
+        />
+      </div>
     </div>
 
     <div v-else>
@@ -36,8 +44,8 @@ export default {
   },
   methods: {
     getSessionStorage(){
-      this.userData = localStorage.getItem("userData");
-      console.log(JSON.parse(this.userData));
+      const getUserData = localStorage.getItem("userData");
+      return JSON.parse(getUserData);
     }
   },
 }

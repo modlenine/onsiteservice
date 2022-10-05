@@ -81,7 +81,7 @@
                                 <div class="sidebar-small-cap mtext">ตั้งค่า</div>
                             </li>
                             <li>
-                                <router-link to='/service_type' class="dropdown-toggle no-arrow">
+                                <router-link to='/serviceType' class="dropdown-toggle no-arrow">
                                     <span class="micon dw dw-add-file1 hicon"></span><span class="mtext">เพิ่มหัวข้อการบริการ</span>
                                 </router-link>
                             </li>
@@ -113,7 +113,7 @@ export default {
         }
     },
     created() {
-        this.resultUserData = JSON.parse(this.userDataProps);
+        this.resultUserData = this.userDataProps;
     },
     mounted() {
         const proxy = this;

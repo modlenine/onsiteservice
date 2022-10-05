@@ -30,7 +30,7 @@ const routes = [
     component:Viewdata
   },
   {
-    path: '/service_type',
+    path: '/serviceType',
     name: 'Service',
     component: Service
   },

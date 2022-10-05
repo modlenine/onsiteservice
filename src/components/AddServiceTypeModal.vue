@@ -7,7 +7,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="myLargeModalLabel">เพิ่มข้อมูลงาน Service</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close closeClick" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
 
                 <div class="modal-body">
@@ -34,6 +34,11 @@
                         <div class="col-md-12 form-group">
                             <button type="button" name="btn-save-service" id="btn-save-service" class="btn btn-info btn-block">บันทึก</button>
                         </div>
+
+                        <input hidden type="text" name="ser-username" id="ser-username" :value="userDataProps.Fname+' '+userDataProps.Lname">
+                        <input hidden type="text" name="ser-ecode" id="ser-ecode" :value="userDataProps.ecode">
+                        <input hidden type="text" name="ser-deptcode" id="ser-deptcode" :value="userDataProps.DeptCode">
+                        <input hidden type="text" name="ser-catid" id="ser-catid">
                     </div>
                 </div>
                
@@ -44,8 +49,23 @@
 </template>
 
 <script>
+
 export default {
-    name:'AddServiceTypeModal'
+    name:'AddServiceTypeModal',
+    props:[
+        'userDataProps',
+    ],
+    data() {
+        return {
+         
+        }
+    },
+    mounted() {
+      
+    },
+    methods: {
+     
+    },
 }
 </script>
 

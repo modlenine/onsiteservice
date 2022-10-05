@@ -24,7 +24,7 @@
 					<div class="col-md-12 col-lg-12">
 						<div class="login-box bg-white box-shadow border-radius-10">
 							<div class="login-title">
-								<h2 class="text-center">ล็อกอินเข้าสู่ระบบ</h2>
+								<h2 class="text-center">ล็อกอินเข้าสู่ระบบ {{userDataProps}}</h2>
 							</div>
 							<form id="frm_login" name="frm_login" @submit.prevent="submitLogin">
 								
@@ -76,6 +76,10 @@ import Swal from 'sweetalert2'
 
 export default {
     name:'Loginpage',
+	props:[
+		'userDataProps',
+		'accessData'
+	],
 	data() {
 		return {
 			url:this.getUrl(),
@@ -86,7 +90,14 @@ export default {
 		
 	},
 	mounted() {
-		
+		// if(this.accessData == false){
+		// 	Swal.fire({
+		// 		title: 'ท่านไม่สามารถใช้งานโปรแกรมของแผนกไอทีได้',
+		// 		icon: 'error',
+		// 		showConfirmButton: false,
+		// 		timer:1000
+		// 	});
+		// }
 	},
     methods: {
         submitLogin(){

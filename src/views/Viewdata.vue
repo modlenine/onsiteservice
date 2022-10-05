@@ -16,7 +16,7 @@
           <div class="pd-ltr-20">
 
             <div class="row">
-                <div class="col-xl-12 mb-30">
+                <div class="col-xl-8 col-lg-12 col-md-12 mb-30">
                     <div class="card-box height-100-p pd-20">
                         <div class="mt-5"></div>
                         <div class="text-center">
@@ -164,6 +164,14 @@
 
                     </div>
                 </div>
+
+                <div class="col-xl-4 col-lg-12 col-md-12 mb-30">
+                    <History
+                        :userinform="this.userinform"
+                        :ecodeinform="this.ecodeinform"
+                        :dateinform="this.dateinform"
+                    />
+                </div>
             </div>
 
           </div>
@@ -178,6 +186,7 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 import EditDataModal from '@/components/EditDataModal.vue';
 import CancelDataModal from '@/components/CancelDataModal.vue';
+import History from '@/components/History.vue';
 
 export default {
     name:'Viewdata',
@@ -187,12 +196,15 @@ export default {
             userData:[],
             currentDateTime:'',
             onsite_no:this.$route.params.id,
-            userinform:'null'
+            userinform:'null',
+            ecodeinform:'',
+            dateinform:''
         }
     },
     components:{
         EditDataModal,
-        CancelDataModal
+        CancelDataModal,
+        History
     },
     created() {
         this.getdatetimeNow();
@@ -261,7 +273,7 @@ export default {
 
                     const onsitestatus = onsite_data.onsite_status;
 
-                    proxy.userinform = onsite_data.onsite_user_inform;
+                    
 
                     let condate = moment(onsite_data.onsite_date_inform).format('DD/MM/Y HH:mm:ss');
                     let condate2 = moment(onsite_data.onsite_datepost).format('DD/MM/Y HH:mm:ss');
@@ -270,6 +282,10 @@ export default {
                     if(device_data != null){
                         deviceTypedeviceName = device_data.dv_dt_type+' : '+device_data.dv_dt_name;
                     }
+
+                    proxy.userinform = onsite_data.onsite_user_inform;
+                    proxy.ecodeinform = onsite_data.onsite_user_ecode;
+                    proxy.dateinform = condate2;
 
                     $('#ipv-user_inform').val(onsite_data.onsite_user_inform);
                     $('#ipv-user_ecode').val(onsite_data.onsite_user_ecode);
@@ -282,6 +298,7 @@ export default {
                     $('#ipv-namepost').val(onsite_data.onsite_namepost);
                     $('#ipv-ecodepost').val(onsite_data.onsite_user_ecode);
                     $('#ipv-datepost').val(condate2);
+
 
                     if(onsitestatus == "New Service"){
                         $('#hr_onsite_inprocess , #onsite_inprocess').css('display' , '');

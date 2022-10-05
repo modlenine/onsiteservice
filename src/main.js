@@ -15,6 +15,8 @@ import 'moment';
 import "zebra_datepicker/dist/css/default/zebra_datepicker.min.css";
 import "zebra_datepicker/dist/zebra_datepicker.min.js";
 
+import 'highcharts';
+
 
 Vue.config.productionTip = false
 
