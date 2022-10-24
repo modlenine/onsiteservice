@@ -24,7 +24,7 @@
 					<div class="col-md-12 col-lg-12">
 						<div class="login-box bg-white box-shadow border-radius-10">
 							<div class="login-title">
-								<h2 class="text-center">ล็อกอินเข้าสู่ระบบ {{userDataProps}}</h2>
+								<h2 class="text-center">ล็อกอินเข้าสู่ระบบ</h2>
 							</div>
 							<form id="frm_login" name="frm_login" @submit.prevent="submitLogin">
 								
@@ -149,6 +149,15 @@ export default {
 				}else if(res.data.status == "Login failed please fill username and password"){
 					Swal.fire({
 						title: 'กรุณากรอก Username & Password',
+						icon: 'error',
+						showConfirmButton: false,
+						timer:1000
+					}).then(function(){
+						location.href = proxy.baseurl;
+					});
+				}else if(res.data.status == "You can not access this program"){
+					Swal.fire({
+						title: 'คุณไม่สามารถเข้าใช้งานโปรแกรมนี้ได้',
 						icon: 'error',
 						showConfirmButton: false,
 						timer:1000

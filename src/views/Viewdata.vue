@@ -158,7 +158,7 @@
                                 </div>
                             </div>
                         </div>
-                            <input style="display:none" type="text" name="ipv-check-onsiteid" id="ipv-check-onsiteid">
+                            <input hidden type="text" name="ipv-check-onsiteid" id="ipv-check-onsiteid">
                         </form>
                         </section>
 
@@ -367,6 +367,9 @@ export default {
         },
         saveInprocess()
         {
+
+            $('#btn-submitInpro').prop('disabled' , true);
+
             const proxy = this;
             axios.post(proxy.url+'intsys/onsite_backend/api/api_saveInprocess' , {
                 action:'saveInprocess',
@@ -389,6 +392,8 @@ export default {
                         if (proxy.$route.path !== path) proxy.$router.push(path)
                         proxy.getViewData();
 					});
+                }else{
+                    $('#btn-submitInpro').prop('disabled' , false);
                 }
             });
         },
@@ -422,6 +427,9 @@ export default {
                     timer:1000
                 });
             }else{
+
+                $('#btn-saveAction').prop('disabled' , true);
+
                 const form = $('#actionForm')[0];
                 const data = new FormData(form);
                 
@@ -436,6 +444,8 @@ export default {
                         }).then(function(){
                             proxy.$router.push('/list');
                         });
+                    }else{
+                        $('#btn-saveAction').prop('disabled' , false);
                     }
                 });
             }

@@ -10,9 +10,29 @@
             <button class="btn btn-primary" id="btn-graph2Back">ย้อนกลับ</button>
         </div>
     </div>
+
+    <div id="sumDataYear" class="row mb-2 mt-3">
+        <div class="col-lg-4 form-group">
+            <div class="card-box height-100-p pd-20 text-center">
+                <h5>งาน Service ทั้งหมด</h5>
+                <h4 id="allServiceSum_txt"></h4>
+            </div>
+        </div>
+        <div class="col-lg-4 form-group">
+            <div class="card-box height-100-p pd-20 text-center">
+                <h5>จำนวน User ที่พบปัญหา</h5>
+                <h4 id="allUserSum_txt"></h4>
+            </div>
+        </div>
+        <div class="col-lg-4 form-group">
+
+        </div>
+    </div>
+
     <figure class="highcharts-figure">
-        <div id="container"></div>
-        <div id="container2"></div>
+        <div id="container" class="mb-2"></div>
+        <div style="height:100px;"></div>
+        <div id="container2" class="mt-2"></div>
         <p class="highcharts-description">
             ทดสอบแสดงข้อมูล การแจ้งซ่อม
         </p>
@@ -67,9 +87,16 @@ export default {
 
                 if(res.data.status == "Select Data Success"){
                     let yearResult = res.data.result;
+                    let userResult = res.data.resultUser;
+
                     let monthNumber = 13;
                     let countOnsite_array = [];
-                    // console.log(yearResult);
+
+                    let onsiteUser_byyear = [];
+                    let onsiteUserCount_byyear = [];
+                    let sumServiceOnyear = 0;
+                    let sumUserOnyear = 0;
+                    console.log(yearResult);
                     let dataCount = 0;
                     for(let i = 1; i < monthNumber; i++){
                         
@@ -86,17 +113,30 @@ export default {
                                 dataCount = 0;
                             }
 
+                            
+
                         }
 
-
+                        sumServiceOnyear += parseFloat(dataCount);
 
                         countOnsite_array.push(parseFloat(dataCount));
                     }
 
-                    console.log(countOnsite_array);
-                    console.log(yearResult);
+                    for(let i = 0; i < userResult.length; i++){
+                        onsiteUser_byyear.push(userResult[i].onsite_user_inform);
+                        onsiteUserCount_byyear.push(parseFloat(userResult[i].count));
+
+                        sumUserOnyear++;
+                    }
+
+                    // console.log(countOnsite_array);
+                    console.log(userResult);
 
                     proxy.getGraph1(countOnsite_array , selectYear);
+                    proxy.getGraph1YearByUser(onsiteUser_byyear , onsiteUserCount_byyear , selectYear);
+
+                    $('#allServiceSum_txt').text(sumServiceOnyear+' งาน');
+                    $('#allUserSum_txt').text(sumUserOnyear+' คน');
                 }
             });
             
@@ -122,19 +162,31 @@ export default {
                     let onsiteUser_bymonth = [];
                     let onsiteUserCount_bymonth = [];
 
+                    let sumServiceOnMonth = 0;
+                    let sumUserOnMonth = 0;
+
+                    console.log(monthByCatResult);
+
                     for(let i = 0; i < monthByCatResult.length; i++){
                         onsiteJobCat_bymonth.push(monthByCatResult[i].onsite_job_cat);
-                        onsiteJobCatCount_bymonth.push(parseFloat(monthByCatResult[i].count));
+                        onsiteJobCatCount_bymonth.push(parseFloat(monthByCatResult[i].countdata));
+
+                        sumServiceOnMonth += parseFloat(monthByCatResult[i].countdata);
                     }
 
                     for(let i = 0; i < monthByUserResult.length; i++){
                         onsiteUser_bymonth.push(monthByUserResult[i].onsite_user_inform);
-                        onsiteUserCount_bymonth.push(parseFloat(monthByUserResult[i].count));
+                        onsiteUserCount_bymonth.push(parseFloat(monthByUserResult[i].countdata));
+
+                        sumUserOnMonth++;
                     }
                     console.log(onsiteJobCat_bymonth);
                     console.log(onsiteJobCatCount_bymonth);
                     proxy.getGraph2MonthByCat(onsiteJobCat_bymonth , onsiteJobCatCount_bymonth , month);
                     proxy.getGraph2MonthByUser(onsiteUser_bymonth , onsiteUserCount_bymonth , month);
+
+                    $('#allServiceSum_txt').text(sumServiceOnMonth+' งาน');
+                    $('#allUserSum_txt').text(sumUserOnMonth+' คน');
                 }
             });
             
@@ -159,7 +211,7 @@ export default {
                 },
 
                 subtitle: {
-                    text: 'ข้อมูลงานประจำเดือน'
+                    text: 'ข้อมูลงานประจำปี '+selectYear
                 },
 
                 yAxis: {
@@ -173,9 +225,9 @@ export default {
                 },
 
                 legend: {
-                    layout: 'vertical',
+                    // layout: 'vertical',
                     align: 'right',
-                    verticalAlign: 'middle'
+                    // verticalAlign: 'middle'
                 },
 
                 plotOptions: {
@@ -200,7 +252,7 @@ export default {
                         dataLabels: {
                             align: 'left',
                             enabled: true,
-                            format: '<span style="font-size:9px;">{point.y:,.0f}</span>',
+                            format: '<span style="font-size:9px;">{point.y:,.0f} งาน</span>',
                             rotation: 330,
                         },
                         pointStart: 0
@@ -213,7 +265,7 @@ export default {
                 },
 
                 series: [{
-                    name: 'Service ประจำเดือน',
+                    name: 'งาน Service ประจำปี '+selectYear,
                     data: countOnsite_array
                 }],
 
@@ -224,9 +276,9 @@ export default {
                         },
                         chartOptions: {
                             legend: {
-                                layout: 'horizontal',
-                                align: 'center',
-                                verticalAlign: 'bottom'
+                                // layout: 'horizontal',
+                                align: 'right',
+                                // verticalAlign: 'bottom'
                                 // horizontal
                             }
                         }
@@ -235,7 +287,7 @@ export default {
 
             });
         },
-        getGraph2MonthByCat(onsiteJobCat_bymonth , onsiteJobCatCount_bymonth , selectMonth)
+        getGraph1YearByUser(onsiteUser_byyear , onsiteUserCount_byyear , selectYear)
         {
             Highcharts.setOptions({
                 lang: {
@@ -243,14 +295,25 @@ export default {
                 }
             });
 
-            Highcharts.chart('container', 
-            {
+            let minWidth = 0;
+            if(onsiteUser_byyear.length > 50){
+                minWidth = 5000;
+            }else{
+                minWidth = 1000;
+            }
 
+            Highcharts.chart('container2', 
+            {
+                
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    scrollablePlotArea: {
+                    minWidth: minWidth,
+                    scrollPositionX: 1
+                    }
                 },
                 title: {
-                    text: 'กราฟแสดงจำนวนงาน Service ของเดือน '+selectMonth
+                    text: 'กราฟแสดงจำนวนงาน Service ของปี '+selectYear
                 },
 
                 subtitle: {
@@ -260,11 +323,12 @@ export default {
                 yAxis: {
                     title: {
                         text: 'จำนวน (งาน)'
-                    }
+                    },
+                    max: 40,
                 },
 
                 xAxis: {
-                    categories: onsiteJobCat_bymonth
+                    categories: onsiteUser_byyear
                 },
 
                 legend: {
@@ -301,7 +365,95 @@ export default {
                 },
 
                 series: [{
-                    name: 'Service ประจำเดือน',
+                    name: 'Service ประจำปี',
+                    data: onsiteUserCount_byyear
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 1300
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                                // horizontal
+                            }
+                        }
+                    }]
+                }
+
+            });
+        },
+        getGraph2MonthByCat(onsiteJobCat_bymonth , onsiteJobCatCount_bymonth , selectMonth)
+        {
+            Highcharts.setOptions({
+                lang: {
+                    thousandsSep: ','
+                }
+            });
+
+            Highcharts.chart('container', 
+            {
+
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'กราฟแสดงจำนวนงาน Service ของเดือน '+selectMonth
+                },
+
+                subtitle: {
+                    text: 'ข้อมูลงานแยกตามประเภท'
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'จำนวน (งาน)'
+                    }
+                },
+
+                xAxis: {
+                    categories: onsiteJobCat_bymonth
+                },
+
+                legend: {
+                    // layout: 'vertical',
+                    align: 'right',
+                    // verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        point: {
+                            events: {
+                                click: function() {
+                                    // var linkchart = '#';
+                                    // let datestarts = $('#datestart').val();
+                                    // let dateends = $('#dateend').val();
+                                    console.log(this.category);
+                                }
+                            }
+                        },
+                        dataLabels: {
+                            align: 'left',
+                            enabled: true,
+                            format: '<span style="font-size:9px;">{point.y:,.0f} งาน</span>',
+                            rotation: 330,
+                        },
+                        pointStart: 0
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{series.name}</span><br>',
+                    pointFormat: '<span style="font-size:10px;color:{point.color}">{point.category}</span>: <b>{point.y:,.0f}</b> งาน.<br/>'
+                },
+
+                series: [{
+                    name: 'รายการ Service',
                     data: onsiteJobCatCount_bymonth
                 }],
 
@@ -331,11 +483,22 @@ export default {
                 }
             });
 
+            let minWidth = 0;
+            if(onsiteUser_bymonth.length > 50){
+                minWidth = 4000;
+            }else{
+                minWidth = 2000;
+            }
+
             Highcharts.chart('container2', 
             {
 
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    scrollablePlotArea: {
+                    minWidth: minWidth,
+                    scrollPositionX: 1
+                    }
                 },
                 title: {
                     text: 'กราฟแสดงจำนวนงาน Service ของเดือน '+selectMonth
@@ -356,9 +519,9 @@ export default {
                 },
 
                 legend: {
-                    layout: 'vertical',
+                    // layout: 'vertical',
                     align: 'right',
-                    verticalAlign: 'middle'
+                    // verticalAlign: 'middle'
                 },
 
                 plotOptions: {
@@ -409,98 +572,6 @@ export default {
                     }]
                 }
 
-            });
-        },
-        getGraph3()
-        {
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'column',
-                    events: {
-                        drilldown: function (e) {
-                            if (!e.seriesOptions) {
-
-                                var chart = this,
-                                    drilldowns = {
-                                        Animals: {
-                                            name: 'Animals',
-                                            data: [
-                                                ['Cows', 2],
-                                                ['Sheep', 3]
-                                            ]
-                                        },
-                                        Fruits: {
-                                            name: 'Fruits',
-                                            data: [
-                                                ['Apples', 5],
-                                                ['Oranges', 7],
-                                                ['Bananas', 2]
-                                            ]
-                                        },
-                                        Cars: {
-                                            name: 'Cars',
-                                            data: [
-                                                ['Toyota', 1],
-                                                ['Volkswagen', 2],
-                                                ['Opel', 5]
-                                            ]
-                                        }
-                                    },
-                                    series = drilldowns[e.point.name];
-
-                                // Show the loading label
-                                chart.showLoading('Simulating Ajax ...');
-
-                                setTimeout(function () {
-                                    chart.hideLoading();
-                                    chart.addSeriesAsDrilldown(e.point, series);
-                                }, 1000);
-                            }
-
-                        }
-                    }
-                },
-                title: {
-                    text: 'Async drilldown'
-                },
-                xAxis: {
-                    type: 'category'
-                },
-
-                legend: {
-                    enabled: false
-                },
-
-                plotOptions: {
-                    series: {
-                        borderWidth: 0,
-                        dataLabels: {
-                            enabled: true
-                        }
-                    }
-                },
-
-                series: [{
-                    name: 'Things',
-                    colorByPoint: true,
-                    data: [{
-                        name: 'Animals',
-                        y: 5,
-                        drilldown: true
-                    }, {
-                        name: 'Fruits',
-                        y: 2,
-                        drilldown: true
-                    }, {
-                        name: 'Cars',
-                        y: 4,
-                        drilldown: true
-                    }]
-                }],
-
-                drilldown: {
-                    series: []
-                }
             });
         },
         getUrl(){

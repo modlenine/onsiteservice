@@ -82,7 +82,7 @@
                             <div class="col-md-8">
                                 <label for=""><b>รายละเอียดงาน</b></label>
                                 <textarea name="ip-issue" id="ip-issue" cols="30" rows="10" class="form-control" required></textarea>
-                                <button type="submit" class="btn btn-success btn-block mt-2"><i class="dw dw-checked mr-2"></i>บันทึก</button>
+                                <button type="submit" id="btn-saveData1" class="btn btn-success btn-block mt-2"><i class="dw dw-checked mr-2"></i>บันทึก</button>
                             </div>
                             <div class="col-md-4">
                                 <div class="row">
@@ -309,6 +309,9 @@ export default {
                     timer:1000
                 });
             }else{
+
+                $('#btn-saveData1').prop('disabled' , true);
+
                 const form = $('#mainform')[0];
                 const data = new FormData(form);
 
@@ -324,6 +327,8 @@ export default {
                             proxy.$router.push('/list');
                         });
                         
+                    }else{
+                        $('#btn-saveData1').prop('disabled' , false);
                     }
                 });
             }

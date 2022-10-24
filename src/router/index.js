@@ -5,6 +5,7 @@ import List from '@/views/List.vue'
 import Add from '@/views/Add.vue'
 import Viewdata from '@/views/Viewdata.vue'
 import Service from '@/views/Service.vue'
+import Report1 from '@/views/Report1.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/serviceType',
     name: 'Service',
     component: Service
+  },
+  {
+    path: '/report',
+    name: 'Report1',
+    component: Report1
   },
   // {
   //   path: '/list',

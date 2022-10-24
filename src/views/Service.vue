@@ -14,7 +14,7 @@
                 <div class="col-xl-12 mb-30">
                   <div class="card-box height-100-p pd-20">
                     <div class="mt-5"></div>
-                    <div class="row mb-3">
+                    <div v-if="userData.ecode == 'M1809'" class="row mb-3">
                         <div class="col-md-6">
                             <button type="button" id="btn-addMachineData" class="btn btn-primary btnIndex" data-toggle="modal" data-target="#addService_modal">
                             <i class="fi-plus mr-2"></i>เพิ่มข้อมูล</button>

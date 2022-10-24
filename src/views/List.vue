@@ -22,14 +22,16 @@
                   <table id="dataMainList" class="table table-striped table-bordered" cellspacing="0">
                     <thead>
                       <tr>
-                        <th>เลขที่รายการ</th>
-                        <th>ประเภทงาน</th>
-                        <th>อุปกรณ์</th>
-                        <th>ผู้แจ้ง</th>
-                        <th>แผนก</th>
-                        <th>วันที่แจ้ง</th>
-                        <th>ผู้ดำเนินการ</th>
-                        <th>สถานะ</th>
+                        <th class="td1">เลขที่รายการ</th>
+                        <th class="td2">ประเภทงาน</th>
+                        <th class="td3">อุปกรณ์</th>
+                        <th class="td4">ผู้แจ้ง</th>
+                        <th class="td5">แผนก</th>
+                        <th class="td6">วันที่แจ้ง</th>
+                        <th class="td7">ผู้ดำเนินการ</th>
+                        <th class="td8">วันที่เสร็จ</th>
+                        <th class="td9">ระยะเวลาแก้ไข</th>
+                        <th class="td10">สถานะ</th>
                       </tr>
                     </thead>
                   </table>
@@ -190,6 +192,17 @@ export default {
                         "ajax": {
                             "url":this.url+'intsys/onsite_backend/api/api_loadOnsiteList/'+startDate_filter+'/'+endDate_filter+'/'+workType_filter+'/'+dept_filter+'/'+userProgress_filter+'/'+status_filter,
                         },
+                        dom: 'Bfrtip',
+                          "buttons": [{
+                            extend: 'copyHtml5',
+                            title: 'รายงานการ Service'
+                          },
+                          {
+                            extend: 'excelHtml5',
+                            autoFilter: true,
+                            title: 'รายงานการ Service'
+                          }
+                          ],
                         order: [
                             [0, 'desc']
                         ],
@@ -252,26 +265,53 @@ export default {
 </script>
 
 <style scoped>
+
   #dataMainList{
-    width:100% !important;
+    width:1500px !important;
+  }
+
+  .td1{
+    width:100px !important;
+  }
+
+  .td2{
+    width:250px !important;
   }
 
 
 @media (min-width:1024px) and (max-width:1439px){
-	
+	#dataMainList{
+    width:1500px !important;
+  }
+
+  .td1{
+    width:100px !important;
+  }
+
+  .td2{
+    width:250px !important;
+  }
+
 }
 
 @media (min-width:768px) and (max-width:1023px){
 	#dataMainList{
-    width:1300px !important;
+    width:1500px !important;
   }
 
+  .td1{
+    width:100px !important;
+  }
+
+  .td2{
+    width:250px !important;
+  }
 
 }
 
 @media (min-width:320px) and (max-width:767px) {
 	#dataMainList{
-    width:1200px !important;
+    width:1500px !important;
   }
 
 }

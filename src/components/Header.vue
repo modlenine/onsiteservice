@@ -62,14 +62,20 @@
                                     <span class="micon dw dw-city-hall hicon"></span><span class="mtext">หน้าหลัก</span>
                                 </a> -->
                                 <router-link to='/' class="dropdown-toggle no-arrow menu">
-                                    <span class="micon dw dw-city-hall hicon"></span><span class="mtext">หน้าหลัก</span>
+                                    <span class="micon dw dw-analytics-3 wdfI1"></span><span class="mtext">หน้าหลัก</span>
                                 </router-link>
                             </li>
                     
                     
                             <li>
                                 <router-link to='/list' class="dropdown-toggle no-arrow menu">
-                                    <span class="micon dw dw-wallet1 wdfI1"></span><span class="mtext">รายการแจ้งซ่อม</span>
+                                    <span class="micon dw dw-invoice-1 wdfI1"></span><span class="mtext">รายการแจ้งซ่อม</span>
+                                </router-link>
+                            </li>
+
+                            <li>
+                                <router-link to='/report' class="dropdown-toggle no-arrow menu">
+                                    <span class="micon dw dw-outbox wdfI1"></span><span class="mtext">รายงาน</span>
                                 </router-link>
                             </li>
 
@@ -80,9 +86,9 @@
                             <li>
                                 <div class="sidebar-small-cap mtext">ตั้งค่า</div>
                             </li>
-                            <li>
+                            <li v-if="userDataProps.ecode == 'M1809' ">
                                 <router-link to='/serviceType' class="dropdown-toggle no-arrow">
-                                    <span class="micon dw dw-add-file1 hicon"></span><span class="mtext">เพิ่มหัวข้อการบริการ</span>
+                                    <span class="micon dw dw-add-file1 wdfI1"></span><span class="mtext">เพิ่มหัวข้อการบริการ</span>
                                 </router-link>
                             </li>
                             
