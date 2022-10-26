@@ -444,8 +444,24 @@ export default {
                         }).then(function(){
                             proxy.$router.push('/list');
                         });
-                    }else{
+                    }else if(res.data.status == "Error Abount Time Finish"){
                         $('#btn-saveAction').prop('disabled' , false);
+
+                        Swal.fire({
+                            title: 'เวลาจบงานไม่สัมพันธ์กันกับเวลาเริ่มงาน',
+                            icon: 'error',
+                            showConfirmButton: false,
+                            timer:1000
+                        });
+                    }else if(res.data.status == "Error Abount Time Start and Finish"){
+                        $('#btn-saveAction').prop('disabled' , false);
+
+                        Swal.fire({
+                            title: 'เวลาจบงานเท่ากับเวลาเริ่มงาน',
+                            icon: 'error',
+                            showConfirmButton: false,
+                            timer:1000
+                        });
                     }
                 });
             }
