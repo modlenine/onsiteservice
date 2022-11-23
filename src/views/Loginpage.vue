@@ -90,16 +90,10 @@ export default {
 		
 	},
 	mounted() {
-		// if(this.accessData == false){
-		// 	Swal.fire({
-		// 		title: 'ท่านไม่สามารถใช้งานโปรแกรมของแผนกไอทีได้',
-		// 		icon: 'error',
-		// 		showConfirmButton: false,
-		// 		timer:1000
-		// 	});
-		// }
+	
 	},
     methods: {
+		
         submitLogin(){
             const form = $('#frm_login')[0];
 			const data = new FormData(form);

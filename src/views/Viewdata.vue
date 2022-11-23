@@ -296,7 +296,7 @@ export default {
                     $('#ipv-job_type').val(onsite_data.onsite_job_type);
                     $('#ipv-issue').val(onsite_data.onsite_issue);
                     $('#ipv-namepost').val(onsite_data.onsite_namepost);
-                    $('#ipv-ecodepost').val(onsite_data.onsite_user_ecode);
+                    $('#ipv-ecodepost').val(onsite_data.onsite_ecodepost);
                     $('#ipv-datepost').val(condate2);
 
 
