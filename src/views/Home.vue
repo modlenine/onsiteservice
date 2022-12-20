@@ -10,10 +10,6 @@
                     <div class="mt-5"></div>
                       <h3 style="text-align:center;">หน้าแรก</h3>
                       <hr>
-                      <div>
-                        <h4 style="text-align:center;">อยู่ระหว่างปรับปรุงข้อมูล</h4>
-                      </div>
-                      <hr>
 
                     <Graph1/>
                     

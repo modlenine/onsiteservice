@@ -190,7 +190,7 @@ export default {
                             }
                         },
                         "ajax": {
-                            "url":this.url+'intsys/onsite_backend/api/api_loadOnsiteList/'+startDate_filter+'/'+endDate_filter+'/'+workType_filter+'/'+dept_filter+'/'+userProgress_filter+'/'+status_filter,
+                            "url":this.url+'intsys/onsiteservice/onsite_backend/api/api_loadOnsiteList/'+startDate_filter+'/'+endDate_filter+'/'+workType_filter+'/'+dept_filter+'/'+userProgress_filter+'/'+status_filter,
                         },
                         dom: 'Bfrtip',
                           "buttons": [{

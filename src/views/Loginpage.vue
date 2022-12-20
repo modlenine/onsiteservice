@@ -99,7 +99,7 @@ export default {
 			const data = new FormData(form);
 			const proxy = this;
 
-			axios.post(this.url+'intsys/onsite_backend/api/checklogin' , data,{
+			axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/checklogin' , data,{
 
 			}).then(res=>{
 				console.log(res.data);

@@ -79,7 +79,7 @@ export default {
         getDataForGraph1(selectYear)
         {
             const proxy = this;
-            axios.post(this.url+'intsys/onsite_backend/api/api_getGraph1/',{
+            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getGraph1/',{
                 action:"getDataForGraph1",
                 selectYear:selectYear
             }).then(res=>{
@@ -144,7 +144,7 @@ export default {
         getDataForGraph2ByCat(selectMonth , selectYear , month)
         {
             const proxy = this;
-            axios.post(this.url+'intsys/onsite_backend/api/api_getGraph2_bycat/',{
+            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getGraph2_bycat/',{
                 action:"getDataForGraph2bycat",
                 selectMonth:selectMonth,
                 selectYear:selectYear
@@ -628,7 +628,7 @@ export default {
         getYearList()
         {
             const proxy = this;
-            axios.post(this.url+'intsys/onsite_backend/api/api_getYearList' , {
+            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getYearList' , {
                 action:"getYearList"
             }).then(res=>{
                 console.log(res.data);

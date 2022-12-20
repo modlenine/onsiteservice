@@ -72,7 +72,7 @@ export default {
     methods: {
         getFilterWorkType()
         {
-            axios.post(this.url+'intsys/onsite_backend/api/api_getWorkType',{
+            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getWorkType',{
                 action:'getWorkType'
             }).then(res=>{
                 console.log(res.data);
@@ -94,7 +94,7 @@ export default {
             }
         },
         getFilterDept(){
-            axios.get(this.url+'intsys/onsite_backend/api/api_getFilterDept').then(res=>{
+            axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterDept').then(res=>{
                 console.log(res.data);
                 if(res.data.status == "Select Data Success"){
                     let result = res.data.result;
@@ -111,7 +111,7 @@ export default {
             });
         },
         getFilterUserProgress(){
-            axios.get(this.url+'intsys/onsite_backend/api/api_getFilterUserProgress').then(res=>{
+            axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterUserProgress').then(res=>{
                 console.log(res.data);
                 if(res.data.status == "Select Data Success"){
                     let result = res.data.result;

@@ -140,7 +140,7 @@ export default {
                                 }
                             },
                             "ajax": {
-                                "url":this.url+'intsys/onsite_backend/api/loadServiceList/',
+                                "url":this.url+'intsys/onsiteservice/onsite_backend/api/loadServiceList/',
                             },
                             order: [
                                 [0, 'desc']
@@ -185,7 +185,7 @@ export default {
         {
            const proxy = this;
             if($('#ser-name').val() != "" && $('#ser-type').val() != ""){
-                axios.post(this.url+'intsys/onsite_backend/api/api_saveServiceType' , {
+                axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_saveServiceType' , {
                     action:"saveServiceType",
                     service_name:$('#ser-name').val(),
                     service_type:$('#ser-type').val(),
@@ -232,7 +232,7 @@ export default {
         {
             const proxy = this;
             if(catid != ''){
-                axios.post(proxy.url+'intsys/onsite_backend/api/api_getDataCat' , {
+                axios.post(proxy.url+'intsys/onsiteservice/onsite_backend/api/api_getDataCat' , {
                     action:"getDataCat",
                     catid:catid
                 }).then(res=>{
@@ -252,7 +252,7 @@ export default {
         {
             const proxy = this;
             if(catid != ""){
-                axios.post(proxy.url+'intsys/onsite_backend/api/api_delDataCat',{
+                axios.post(proxy.url+'intsys/onsiteservice/onsite_backend/api/api_delDataCat',{
                     action:"delDataCat",
                     catid:catid
                 }).then(res=>{

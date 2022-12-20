@@ -55,7 +55,7 @@ export default {
         confirmCancel(){
             const proxy = this;
             if($('#cancel-reson').val() != ""){
-                axios.post(this.url+'intsys/onsite_backend/api/api_canceldata' , {
+                axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_canceldata' , {
                     action:'confirmCancel',
                     onsite_no:proxy.onsite_no,
                     cancel_reason:$('#cancel-reson').val(),

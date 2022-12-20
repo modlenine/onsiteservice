@@ -187,8 +187,7 @@ export default {
 
 
         // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function() {
-            'use strict';
+       
             window.addEventListener('load', function() {
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.getElementsByClassName('needs-validation');
@@ -203,7 +202,7 @@ export default {
                     }, false);
                 });
             }, false);
-        })();
+    
 
     },
     methods: {
@@ -213,7 +212,7 @@ export default {
     	    });
         },
         getUser(searchInput){
-            axios.post(this.url+'intsys/onsite_backend/api/api_getuser',{
+            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getuser',{
                 action:'getuser',
                 searchInput:searchInput
             }).then(res=>{
@@ -234,7 +233,7 @@ export default {
         },
         getDevice(userinform){
             if(userinform != ""){
-                axios.post(this.url+'intsys/onsite_backend/api/api_getDevice' , {
+                axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getDevice' , {
                     action:'getDevice',
                     userinform:userinform
                 }).then(res=>{
@@ -258,7 +257,7 @@ export default {
             }
         },
         getWorkType(){
-            axios.post(this.url+'intsys/onsite_backend/api/api_getWorkType' ,{
+            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getWorkType' ,{
                 action:'getWorkType',
             }).then(res=>{
                 console.log(res.data);
@@ -315,7 +314,7 @@ export default {
                 const form = $('#mainform')[0];
                 const data = new FormData(form);
 
-                axios.post(this.url+'intsys/onsite_backend/api/api_saveDataMain' , data).then(res=>{
+                axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_saveDataMain' , data).then(res=>{
                     console.log(res.data);
                     if(res.data.status == "Insert Data Success"){
                         Swal.fire({
@@ -337,7 +336,7 @@ export default {
 
         },
         getdatetimeNow(){
-            axios.get(this.url+'intsys/onsite_backend/api/getdatetimeNow').then(res=>{
+            axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/getdatetimeNow').then(res=>{
                 console.log(res.data);
                 this.currentDateTime = res.data.result;
                 $('#ip-datepost').val(this.currentDateTime);
