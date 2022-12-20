@@ -4,7 +4,7 @@
     <div class="main-container">
           <div class="pd-ltr-20">
 
-            <form id="mainform" @submit.prevent="saveDataMain()" class="needs-validation" novalidate>
+            <form id="mainform" @submit.prevent="saveDataMain" class="needs-validation" novalidate>
             <div class="row">
                 <div class="col-xl-12 mb-30">
                     <div class="card-box height-100-p pd-20">
@@ -187,8 +187,7 @@ export default {
 
 
         // Example starter JavaScript for disabling form submissions if there are invalid fields
-       
-            window.addEventListener('load', function() {
+            window.addEventListener('click', function() {
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.getElementsByClassName('needs-validation');
                 // Loop over them and prevent submission
