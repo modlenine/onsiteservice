@@ -41,7 +41,7 @@
 <script>
 
 import $ from 'jquery';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 
@@ -49,17 +49,14 @@ export default {
     name:'FilterData',
     data() {
         return {
-            url:this.getUrl()
+            // url:this.getUrl()
         }
     },
     created() {
         
     },
     mounted() {
-        const proxy = this;
-        proxy.getFilterWorkType();
-        proxy.getFilterDept();
-        proxy.getFilterUserProgress();
+
 
         $('#startDate').Zebra_DatePicker({
             pair: $('#endDate')
@@ -70,65 +67,65 @@ export default {
 
     },
     methods: {
-        getFilterWorkType()
-        {
-            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getWorkType',{
-                action:'getWorkType'
-            }).then(res=>{
-                console.log(res.data);
+        // getFilterWorkType()
+        // {
+        //     axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getWorkType',{
+        //         action:'getWorkType'
+        //     }).then(res=>{
+        //         console.log(res.data);
 
-                let result = res.data.result;
-                let html ='<option value="">กรองด้วยประเภทงาน</option>';
-                for(let i = 0; i < result.length; i++){
-                    html +=`
-                    <option value="`+result[i].onsite_cat_id+`">`+result[i].onsite_cat_type+` : `+result[i].onsite_cat_name+`</option>
-                    `;
-                }
+        //         let result = res.data.result;
+        //         let html ='<option value="">กรองด้วยประเภทงาน</option>';
+        //         for(let i = 0; i < result.length; i++){
+        //             html +=`
+        //             <option value="`+result[i].onsite_cat_id+`">`+result[i].onsite_cat_type+` : `+result[i].onsite_cat_name+`</option>
+        //             `;
+        //         }
 
-                $('#filterBy-worktype').html(html);
-            });
-        },
-        getUrl(){
-            if(typeof window !== "undefined"){
-                return window.location.protocol+"//"+window.location.hostname+"/";
-            }
-        },
-        getFilterDept(){
-            axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterDept').then(res=>{
-                console.log(res.data);
-                if(res.data.status == "Select Data Success"){
-                    let result = res.data.result;
-                    let html = `
-                        <option value="">กรองด้วยแผนก</option>
-                    `;
-                    for(let i = 0; i < result.length; i++){
-                        html +=`
-                        <option value="`+result[i].onsite_deptcode_inform+`">`+result[i].onsite_dept_inform+`</option>
-                        `;
-                        $('#filterBy-dept').html(html);
-                    }
-                }
-            });
-        },
-        getFilterUserProgress(){
-            axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterUserProgress').then(res=>{
-                console.log(res.data);
-                if(res.data.status == "Select Data Success"){
-                    let result = res.data.result;
-                    let html = `
-                    <option value="">กรองโดยผู้ดำเนินการ</option>
-                    `;
-                    for(let i = 0; i < result.length; i++){
-                        html +=`
-                        <option value="`+result[i].onsite_ownerecode+`">`+result[i].onsite_owner+`</option>
-                        `;
-                    }
+        //         $('#filterBy-worktype').html(html);
+        //     });
+        // },
+        // getUrl(){
+        //     if(typeof window !== "undefined"){
+        //         return window.location.protocol+"//"+window.location.hostname+"/";
+        //     }
+        // },
+        // getFilterDept(){
+        //     axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterDept').then(res=>{
+        //         console.log(res.data);
+        //         if(res.data.status == "Select Data Success"){
+        //             let result = res.data.result;
+        //             let html = `
+        //                 <option value="">กรองด้วยแผนก</option>
+        //             `;
+        //             for(let i = 0; i < result.length; i++){
+        //                 html +=`
+        //                 <option value="`+result[i].onsite_deptcode_inform+`">`+result[i].onsite_dept_inform+`</option>
+        //                 `;
+        //                 $('#filterBy-dept').html(html);
+        //             }
+        //         }
+        //     });
+        // },
+        // getFilterUserProgress(){
+        //     axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterUserProgress').then(res=>{
+        //         console.log(res.data);
+        //         if(res.data.status == "Select Data Success"){
+        //             let result = res.data.result;
+        //             let html = `
+        //             <option value="">กรองโดยผู้ดำเนินการ</option>
+        //             `;
+        //             for(let i = 0; i < result.length; i++){
+        //                 html +=`
+        //                 <option value="`+result[i].onsite_ownerecode+`">`+result[i].onsite_owner+`</option>
+        //                 `;
+        //             }
 
-                    $('#filterBy-userProgress').html(html);
-                }
+        //             $('#filterBy-userProgress').html(html);
+        //         }
 
-            });
-        },
+        //     });
+        // },
     },
 }
 </script>

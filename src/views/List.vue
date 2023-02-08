@@ -50,6 +50,7 @@
 <script>
 import $ from 'jquery';
 import FilterData from '@/components/FilterData.vue';
+import axios from 'axios'
 
 
 
@@ -66,11 +67,16 @@ export default {
   },
 
   created() {
-    
+    const proxy = this;
+    proxy.getFilterWorkType();
+    proxy.getFilterDept();
+    proxy.getFilterUserProgress();
+  },
+  beforeMount() {
+
   },
   mounted() {
     this.loadonsiteList();
-    this.loadFilterOnSessionStorage();
 
     const proxy = this;
 
@@ -132,12 +138,40 @@ export default {
     loadonsiteList()
     {
 
-      let startDate_filter = $('#startDate').val();
-			let endDate_filter = $('#endDate').val();
-			let workType_filter = $('#filterBy-worktype').val();
-			let dept_filter = $('#filterBy-dept').val();
-			let userProgress_filter = $('#filterBy-userProgress').val();
-			let status_filter = $('#filterBy-status').val();
+      // let startDate_filter = $('#startDate').val();
+			// let endDate_filter = $('#endDate').val();
+			// let workType_filter = $('#filterBy-worktype').val();
+			// let dept_filter = $('#filterBy-dept').val();
+			// let userProgress_filter = $('#filterBy-userProgress').val();
+			// let status_filter = $('#filterBy-status').val();
+
+      let startDate_filter = "";
+      let endDate_filter = "";
+      let workType_filter = "";
+      let dept_filter = "";
+      let userProgress_filter = "";
+      let status_filter = "";
+
+      let getfilterObject = localStorage.getItem("filterObject");
+			console.log(JSON.parse(getfilterObject));
+
+			if(getfilterObject !== null){
+				startDate_filter = JSON.parse(getfilterObject).startDate_filter;
+				endDate_filter = JSON.parse(getfilterObject).endDate_filter;
+				workType_filter = JSON.parse(getfilterObject).workType_filter;
+				dept_filter = JSON.parse(getfilterObject).dept_filter;
+				userProgress_filter = JSON.parse(getfilterObject).userProgress_filter;
+				status_filter = JSON.parse(getfilterObject).status_filter;
+
+				// $('#startDate').val(startDate_filter);
+				// $('#endDate').val(endDate_filter);
+				// $('#filterBy-worktype').val(workType_filter);
+				// $('#filterBy-dept').val(dept_filter);
+				// $('#filterBy-userProgress').val(userProgress_filter);
+				// $('#filterBy-status').val(status_filter);
+
+        // console.log(workType_filter);
+			}
 
 
 			if(startDate_filter == "" || startDate_filter == null){
@@ -234,7 +268,7 @@ export default {
 			let getfilterObject = localStorage.getItem("filterObject");
 			console.log(JSON.parse(getfilterObject));
 
-			if(getfilterObject != null){
+			if(getfilterObject !== null){
 				let startDate_filter = JSON.parse(getfilterObject).startDate_filter;
 				let endDate_filter = JSON.parse(getfilterObject).endDate_filter;
 				let workType_filter = JSON.parse(getfilterObject).workType_filter;
@@ -248,6 +282,8 @@ export default {
 				$('#filterBy-dept').val(dept_filter);
 				$('#filterBy-userProgress').val(userProgress_filter);
 				$('#filterBy-status').val(status_filter);
+
+        console.log(workType_filter);
 			}
 
 			// this.loadonsiteList();
@@ -256,6 +292,70 @@ export default {
         if(typeof window !== "undefined"){
             return window.location.protocol+"//"+window.location.hostname+"/";
         }
+    },
+    getFilterWorkType()
+    {
+      
+        axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getWorkType',{
+            action:'getWorkType'
+        }).then(res=>{
+            console.log(res.data);
+
+            let result = res.data.result;
+            let html ='<option value="">กรองด้วยประเภทงาน</option>';
+            for(let i = 0; i < result.length; i++){
+                html +=`
+                <option value="`+result[i].onsite_cat_id+`">`+result[i].onsite_cat_type+` : `+result[i].onsite_cat_name+`</option>
+                `;
+            }
+
+            $('#filterBy-worktype').html(html);
+            const proxy = this;
+            proxy.loadFilterOnSessionStorage();
+        });
+    },
+    getFilterDept(){
+        axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterDept').then(res=>{
+            console.log(res.data);
+            if(res.data.status == "Select Data Success"){
+                let result = res.data.result;
+                let html = `
+                    <option value="">กรองด้วยแผนก</option>
+                `;
+                for(let i = 0; i < result.length; i++){
+                    html +=`
+                    <option value="`+result[i].onsite_deptcode_inform+`">`+result[i].onsite_dept_inform+`</option>
+                    `;
+                    
+                }
+
+                $('#filterBy-dept').html(html);
+
+                const proxy = this;
+                proxy.loadFilterOnSessionStorage();
+            }
+        });
+    },
+    getFilterUserProgress(){
+        axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterUserProgress').then(res=>{
+            console.log(res.data);
+            if(res.data.status == "Select Data Success"){
+                let result = res.data.result;
+                let html = `
+                <option value="">กรองโดยผู้ดำเนินการ</option>
+                `;
+                for(let i = 0; i < result.length; i++){
+                    html +=`
+                    <option value="`+result[i].onsite_ownerecode+`">`+result[i].onsite_owner+`</option>
+                    `;
+                }
+
+                $('#filterBy-userProgress').html(html);
+                const proxy = this;
+                proxy.loadFilterOnSessionStorage();
+            }
+
+        });
     },
     
 
