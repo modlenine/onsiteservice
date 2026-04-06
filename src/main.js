@@ -21,6 +21,72 @@ import 'highcharts/modules/drilldown.js';
 
 Vue.config.productionTip = false
 
+Vue.mixin({
+  methods: {
+    getUrl(){
+      if(typeof window !== "undefined"){
+          return window.location.protocol+"//"+window.location.hostname+":8080/";
+      }
+    },
+    baseUrl(){
+      switch (process.env.NODE_ENV) {
+          case 'production': return '/intsys/onsiteservice/'
+          case 'development': return '/'
+          default: return ''
+      }
+    },
+    formValidate()
+    {
+      window.addEventListener('click', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    },
+    numberWithCommas(x) {
+      var parts = x.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return parts.join(".");
+    },
+    conAreaidToFullname(dataareaid){
+      if(dataareaid != ""){
+        let fullname = '';
+        switch(dataareaid){
+          case "sln":
+              fullname = "Salee Colour";
+              break;
+          case "ca":
+              fullname = "Composite Asia";
+              break;
+          case "st":
+              fullname = "Subterra";
+              break;
+          case "tbb":
+              fullname = "The bubbles";
+              break;
+        }
+
+        return fullname;
+      }
+    },
+    getSessionStorage(){
+      const getUserData = localStorage.getItem("userData");
+      return getUserData ? JSON.parse(getUserData) : null;
+    },
+    
+  },
+  
+});
+
 new Vue({
   router,
   store,

@@ -85,11 +85,6 @@ export default {
                 });
             }
         },
-        getUrl(){
-            if(typeof window !== "undefined"){
-                return window.location.protocol+"//"+window.location.hostname+"/";
-            }
-        },
     },
 }
 </script>

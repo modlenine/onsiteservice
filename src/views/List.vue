@@ -288,11 +288,6 @@ export default {
 
 			// this.loadonsiteList();
 		},
-    getUrl(){
-        if(typeof window !== "undefined"){
-            return window.location.protocol+"//"+window.location.hostname+"/";
-        }
-    },
     getFilterWorkType()
     {
       

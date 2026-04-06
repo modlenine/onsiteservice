@@ -279,11 +279,6 @@ export default {
 
 
         },
-        getUrl(){
-            if(typeof window !== "undefined"){
-                return window.location.protocol+"//"+window.location.hostname+"/";
-            }
-        },
         getDevice(userinform , dv_dt_id){
             if(userinform != ""){
                 axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getDevice' , {

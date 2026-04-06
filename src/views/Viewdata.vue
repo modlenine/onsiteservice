@@ -353,11 +353,6 @@ export default {
                 }
             });
         },
-        getUrl(){
-            if(typeof window !== "undefined"){
-                return window.location.protocol+"//"+window.location.hostname+"/";
-            }
-        },
         getUserData(){
             this.userData = localStorage.getItem('userData');
             this.userData = JSON.parse(this.userData);

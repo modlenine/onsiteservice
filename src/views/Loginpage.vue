@@ -160,21 +160,7 @@ export default {
 					});
 				}
 			});
-        },
-		getUrl(){
-            if(typeof window !== "undefined"){
-                return window.location.protocol+"//"+window.location.hostname+"/";
-            }
-        },
-		baseUrl(){
-            switch (process.env.NODE_ENV) {
-                case 'production': return '/intsys/onsiteservice/'
-                case 'development': return '/'
-                default: return ''
-            }
         }
-
-
     },
 }
 </script>
