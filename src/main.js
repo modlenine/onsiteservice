@@ -25,7 +25,15 @@ Vue.mixin({
   methods: {
     getUrl(){
       if(typeof window !== "undefined"){
-          return window.location.protocol+"//"+window.location.hostname+":8080/";
+          // Development: ใช้ relative path (proxy จะจัดการ)
+          // Production: ใช้ absolute URL
+          if (process.env.NODE_ENV === 'development') {
+              return '/';
+          } else {
+              // Production: รวม port ด้วย (สำหรับทดสอบบน localhost:8080)
+              const port = window.location.port ? ':' + window.location.port : '';
+              return window.location.protocol + "//" + window.location.hostname + port + "/";
+          }
       }
     },
     baseUrl(){

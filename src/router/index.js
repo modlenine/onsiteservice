@@ -56,4 +56,22 @@ const router = new VueRouter({
   routes
 })
 
+// Navigation Guard - ตรวจสอบ authentication
+router.beforeEach((to, from, next) => {
+  const userData = localStorage.getItem('userData');
+  
+  // ถ้าไม่มี userData ใน localStorage
+  if (!userData) {
+    // ใน production mode ให้ redirect ไป intranet พร้อม return_url
+    if (process.env.NODE_ENV === 'production') {
+      const returnUrl = encodeURIComponent(window.location.pathname);
+      window.location.href = `/intranet/login?return_url=${returnUrl}`;
+      return;
+    }
+    // ใน development mode ให้ผ่านไปหน้า login
+  }
+  
+  next();
+});
+
 export default router

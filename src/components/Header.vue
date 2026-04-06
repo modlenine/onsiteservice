@@ -127,8 +127,7 @@ export default {
         console.log(this.resultUserData);
         console.log('Public path'+process.env.NODE_ENV);
         $('#logoutBtn').click(function(){
-            localStorage.removeItem('userData');
-            location.href = proxy.baseurl;
+            proxy.handleLogout();
         });
 
         $(document).on('click' , '.header-left' , function(){
@@ -147,11 +146,7 @@ export default {
         });
     },
     methods: {
-        getUrl(){
-            if(typeof window !== "undefined"){
-                return window.location.protocol+"//"+window.location.hostname+"/";
-            }
-        },
+        // ลบ getUrl() และ baseUrl() ให้ใช้จาก Vue mixin แทน
         getUserData(){
             if(this.userDataProps != null){
                 this.userImage = 'https://intranet.saleecolour.com/intsys/usermanagement/uploads/'+this.resultUserData.file_img;
@@ -159,11 +154,39 @@ export default {
             }
 
         },
-        baseUrl(){
-            switch (process.env.NODE_ENV) {
-                case 'production': return '/intsys/onsiteservice/'
-                case 'development': return '/'
-                default: return ''
+        async handleLogout(){
+            const proxy = this;
+            try {
+                // เรียก logout API (ใช้ relative path สำหรับ dev mode ที่มี proxy)
+                const apiUrl = process.env.NODE_ENV === 'development'
+                    ? '/intsys/onsiteservice/onsite_backend/api/logout'
+                    : this.getUrl() + 'intsys/onsiteservice/onsite_backend/api/logout';
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                console.log('Logout response:', data);
+                
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                // ลบ localStorage และ redirect (ไม่ว่าจะ API สำเร็จหรือไม่)
+                localStorage.removeItem('userData');
+                
+                // อัพเดต Vuex store
+                if (this.$store) {
+                    this.$store.commit('setUserData', null);
+                }
+                
+                // Redirect ไปหน้า intranet โดยไม่มี return_url (ให้อยู่ที่ intranet หลัง logout)
+                if (process.env.NODE_ENV === 'production') {
+                    window.location.href = '/intranet/';
+                } else {
+                    location.href = proxy.baseUrl();
+                }
             }
         }
 
