@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { apiUrl } from '@/utils/backend'
 
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -21,20 +22,30 @@ import 'highcharts/modules/drilldown.js';
 
 Vue.config.productionTip = false
 
+// Production: ไม่แสดง console บน browser ของผู้ใช้
+// Development (npm run serve): ยังแสดง console.log ตามปกติ เพื่อ debug
+if (process.env.NODE_ENV === 'production') {
+  const noop = function () {}
+  console.log = noop
+  console.debug = noop
+  console.info = noop
+  console.warn = noop
+  console.error = noop
+}
+
 Vue.mixin({
   methods: {
     getUrl(){
       if(typeof window !== "undefined"){
-          // Development: ใช้ relative path (proxy จะจัดการ)
-          // Production: ใช้ absolute URL
-          if (process.env.NODE_ENV === 'development') {
-              return '/';
-          } else {
-              // Production: รวม port ด้วย (สำหรับทดสอบบน localhost:8080)
-              const port = window.location.port ? ':' + window.location.port : '';
-              return window.location.protocol + "//" + window.location.hostname + port + "/";
-          }
+          return window.location.protocol+"//"+window.location.host+"/";
       }
+    },
+    /** เรียก backend API — dev ใช้ relative path ผ่าน proxy (เหมือน VMI getBackendUrl) */
+    getBackendUrl(){
+      return '/';
+    },
+    apiUrl(path = '') {
+      return apiUrl(path);
     },
     baseUrl(){
       switch (process.env.NODE_ENV) {

@@ -5,13 +5,13 @@ module.exports = {
     devServer: {
         port: 8081, // Dev port
         proxy: {
-            // Proxy backend requests to MAMP (port 8080)
-            '/intranet': {
+            '/intsys': {
                 target: 'http://localhost:8080',
                 changeOrigin: true,
-                secure: false
+                secure: false,
+                ws: true
             },
-            '/intsys': {
+            '/intranet': {
                 target: 'http://localhost:8080',
                 changeOrigin: true,
                 secure: false

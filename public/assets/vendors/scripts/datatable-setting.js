@@ -1,5 +1,7 @@
 $('document').ready(function(){
-	$('.data-table').DataTable({
+	var dtProgram = 'onsiteservice';
+
+	var dataTableOpts = {
 		scrollCollapse: true,
 		autoWidth: false,
 		responsive: true,
@@ -7,18 +9,20 @@ $('document').ready(function(){
 			targets: "datatable-nosort",
 			orderable: false,
 		}],
-		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"language": {
 			"info": "_START_-_END_ of _TOTAL_ entries",
 			searchPlaceholder: "Search",
 			paginate: {
 				next: '<i class="ion-chevron-right"></i>',
-				previous: '<i class="ion-chevron-left"></i>'  
+				previous: '<i class="ion-chevron-left"></i>'
 			}
 		},
-	});
+	};
+	dataTableOpts = DtPageLength.applyDefaults(dtProgram, dataTableOpts);
+	var dataTable = $('.data-table').DataTable(dataTableOpts);
+	DtPageLength.bindSave(dataTable, dtProgram);
 
-	$('.data-table-export').DataTable({
+	var exportOpts = {
 		scrollCollapse: true,
 		autoWidth: false,
 		responsive: true,
@@ -26,20 +30,22 @@ $('document').ready(function(){
 			targets: "datatable-nosort",
 			orderable: false,
 		}],
-		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"language": {
 			"info": "_START_-_END_ of _TOTAL_ entries",
 			searchPlaceholder: "Search",
 			paginate: {
 				next: '<i class="ion-chevron-right"></i>',
-				previous: '<i class="ion-chevron-left"></i>'  
+				previous: '<i class="ion-chevron-left"></i>'
 			}
 		},
 		dom: 'Bfrtp',
 		buttons: [
 		'copy', 'csv', 'pdf', 'print'
 		]
-	});
+	};
+	exportOpts = DtPageLength.applyDefaults(dtProgram, exportOpts);
+	var exportTable = $('.data-table-export').DataTable(exportOpts);
+	DtPageLength.bindSave(exportTable, dtProgram);
 
 	var table = $('.select-row').DataTable();
 	$('.select-row tbody').on('click', 'tr', function () {
@@ -56,17 +62,17 @@ $('document').ready(function(){
 	$('.multiple-select-row tbody').on('click', 'tr', function () {
 		$(this).toggleClass('selected');
 	});
-	var table = $('.checkbox-datatable').DataTable({
+
+	var checkboxOpts = {
 		'scrollCollapse': true,
 		'autoWidth': false,
 		'responsive': true,
-		"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"language": {
 			"info": "_START_-_END_ of _TOTAL_ entries",
 			searchPlaceholder: "Search",
 			paginate: {
 				next: '<i class="ion-chevron-right"></i>',
-				previous: '<i class="ion-chevron-left"></i>'  
+				previous: '<i class="ion-chevron-left"></i>'
 			}
 		},
 		'columnDefs': [{
@@ -79,10 +85,13 @@ $('document').ready(function(){
 			}
 		}],
 		'order': [[1, 'asc']]
-	});
+	};
+	checkboxOpts = DtPageLength.applyDefaults(dtProgram, checkboxOpts);
+	var checkboxTable = $('.checkbox-datatable').DataTable(checkboxOpts);
+	DtPageLength.bindSave(checkboxTable, dtProgram);
 
 	$('#example-select-all').on('click', function(){
-		var rows = table.rows({ 'search': 'applied' }).nodes();
+		var rows = checkboxTable.rows({ 'search': 'applied' }).nodes();
 		$('input[type="checkbox"]', rows).prop('checked', this.checked);
 	});
 

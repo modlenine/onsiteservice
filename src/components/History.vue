@@ -49,7 +49,7 @@ export default {
         {
             const proxy = this;
             if(proxy.ecodeinform != ''){
-                axios.post(proxy.url+'intsys/onsiteservice/onsite_backend/api/api_getUserHistory',{
+                axios.post(proxy.apiUrl('api_getUserHistory'), {
                     action:"getUserHistory",
                     ecode:proxy.ecodeinform
                 }).then(res=>{

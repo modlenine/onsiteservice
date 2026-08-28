@@ -79,7 +79,7 @@ export default {
         downloadReport(dateStart , dateEnd)
         {
           if(dateStart != "" && dateEnd != ""){
-            location.href = this.url+'intsys/onsiteservice/onsite_backend/exportdata/downloadReport/'+dateStart+'/'+dateEnd
+            location.href = '/intsys/onsiteservice/onsite_backend/exportdata/downloadReport/'+dateStart+'/'+dateEnd
           }
         },
         getUrl(){

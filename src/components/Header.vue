@@ -158,11 +158,7 @@ export default {
             const proxy = this;
             try {
                 // เรียก logout API (ใช้ relative path สำหรับ dev mode ที่มี proxy)
-                const apiUrl = process.env.NODE_ENV === 'development'
-                    ? '/intsys/onsiteservice/onsite_backend/api/logout'
-                    : this.getUrl() + 'intsys/onsiteservice/onsite_backend/api/logout';
-                
-                const response = await fetch(apiUrl, {
+                const response = await fetch(this.apiUrl('logout'), {
                     method: 'POST',
                     credentials: 'include'
                 });

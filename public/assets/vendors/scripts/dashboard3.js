@@ -273,7 +273,7 @@ chart4.render();
 
 // datatable init
 $('document').ready(function(){
-	$('.data-table').DataTable({
+	DtPageLength.create('.data-table', 'onsiteservice', {
 		scrollCollapse: false,
 		autoWidth: false,
 		responsive: true,

@@ -258,7 +258,7 @@ export default {
                 const form = $('#mainformEdit')[0];
                 const data = new FormData(form);
 
-                axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_saveEditDataMain' , data).then(res=>{
+                axios.post(this.apiUrl('api_saveEditDataMain'), data).then(res=>{
                     console.log(res.data);
                     if(res.data.status == "Update Data Success"){
                         Swal.fire({
@@ -281,7 +281,7 @@ export default {
         },
         getDevice(userinform , dv_dt_id){
             if(userinform != ""){
-                axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getDevice' , {
+                axios.post(this.apiUrl('api_getDevice'), {
                     action:'getDevice',
                     userinform:userinform
                 }).then(res=>{
@@ -307,7 +307,7 @@ export default {
             }
         },
         getWorkType(onsite_cat_name){
-            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getWorkType' ,{
+            axios.post(this.apiUrl('api_getWorkType'), {
                 action:'getWorkType',
             }).then(res=>{
                 console.log(res.data);
@@ -345,7 +345,7 @@ export default {
     	    });
         },
         getUser(searchInput){
-            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getuser',{
+            axios.post(this.apiUrl('api_getuser'), {
                 action:'getuser',
                 searchInput:searchInput
             }).then(res=>{
@@ -362,7 +362,7 @@ export default {
         getViewDataEdit(){
             const proxy = this;
 
-            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getViewData/',{
+            axios.post(this.apiUrl('api_getViewData/'), {
                 action:'getViewData',
                 formno:this.$route.params.id
             }).then(res=>{

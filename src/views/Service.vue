@@ -53,6 +53,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 import AddServiceTypeModal from '@/components/AddServiceTypeModal.vue';
+import { applyPageLengthDefaults, bindPageLengthSave } from '@/utils/datatable-page-length.js'
 
 export default {
     name:"Service",
@@ -126,7 +127,8 @@ export default {
             });
 
                 $('#tbl_servicetype').DataTable().destroy();
-                var table = $('#tbl_servicetype').DataTable({
+                let dtOpts = {
+
                             "scrollX": true,
                             "processing": true,
                             "serverSide": true,
@@ -140,7 +142,7 @@ export default {
                                 }
                             },
                             "ajax": {
-                                "url":this.url+'intsys/onsiteservice/onsite_backend/api/loadServiceList/',
+                                "url": this.apiUrl('loadServiceList/'),
                             },
                             order: [
                                 [0, 'desc']
@@ -150,7 +152,10 @@ export default {
                                     orderable: false
                                 },
                             ],
-                    });
+      };
+      dtOpts = applyPageLengthDefaults('onsiteservice', dtOpts);
+      var table = $('#tbl_servicetype').DataTable(dtOpts);
+      bindPageLengthSave(table, 'onsiteservice');
 
                 table.columns().every(function() {
                     var table = this;
@@ -185,7 +190,7 @@ export default {
         {
            const proxy = this;
             if($('#ser-name').val() != "" && $('#ser-type').val() != ""){
-                axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_saveServiceType' , {
+                axios.post(this.apiUrl('api_saveServiceType'), {
                     action:"saveServiceType",
                     service_name:$('#ser-name').val(),
                     service_type:$('#ser-type').val(),
@@ -232,7 +237,7 @@ export default {
         {
             const proxy = this;
             if(catid != ''){
-                axios.post(proxy.url+'intsys/onsiteservice/onsite_backend/api/api_getDataCat' , {
+                axios.post(proxy.apiUrl('api_getDataCat'), {
                     action:"getDataCat",
                     catid:catid
                 }).then(res=>{
@@ -252,7 +257,7 @@ export default {
         {
             const proxy = this;
             if(catid != ""){
-                axios.post(proxy.url+'intsys/onsiteservice/onsite_backend/api/api_delDataCat',{
+                axios.post(proxy.apiUrl('api_delDataCat'), {
                     action:"delDataCat",
                     catid:catid
                 }).then(res=>{

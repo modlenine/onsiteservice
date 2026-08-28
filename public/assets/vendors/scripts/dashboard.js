@@ -442,7 +442,7 @@ chart6.render();
 
 // datatable init
 $('document').ready(function(){
-	$('.data-table').DataTable({
+	DtPageLength.create('.data-table', 'onsiteservice', {
 		scrollCollapse: true,
 		autoWidth: true,
 		responsive: true,

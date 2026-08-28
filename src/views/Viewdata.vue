@@ -261,7 +261,7 @@ export default {
         getViewData(){
             const proxy = this;
 
-            axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getViewData/',{
+            axios.post(this.apiUrl('api_getViewData/'), {
                 action:'getViewData',
                 formno:this.$route.params.id
             }).then(res=>{
@@ -365,7 +365,7 @@ export default {
             $('#btn-submitInpro').prop('disabled' , true);
 
             const proxy = this;
-            axios.post(proxy.url+'intsys/onsiteservice/onsite_backend/api/api_saveInprocess' , {
+            axios.post(proxy.apiUrl('api_saveInprocess'), {
                 action:'saveInprocess',
                 inproMemo:$('#ipv-inpromemo').val(),
                 inproName:$('#ipv-inproname').val(),
@@ -392,7 +392,7 @@ export default {
             });
         },
         getdatetimeNow(){
-            axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/getdatetimeNow').then(res=>{
+            axios.get(this.apiUrl('getdatetimeNow')).then(res=>{
                 console.log(res.data);
                 this.currentDateTime = res.data.result;
             });
@@ -427,7 +427,7 @@ export default {
                 const form = $('#actionForm')[0];
                 const data = new FormData(form);
                 
-                axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_saveAction' , data , {}).then(res=>{
+                axios.post(this.apiUrl('api_saveAction'), data, {}).then(res=>{
                     console.log(res.data);
                     if(res.data.status == "Update Data Success"){
                         Swal.fire({

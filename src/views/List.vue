@@ -51,6 +51,7 @@
 import $ from 'jquery';
 import FilterData from '@/components/FilterData.vue';
 import axios from 'axios'
+import { applyPageLengthDefaults, bindPageLengthSave } from '@/utils/datatable-page-length.js'
 
 
 
@@ -210,7 +211,8 @@ export default {
         });
 
         	$('#dataMainList').DataTable().destroy();
-            var table = $('#dataMainList').DataTable({
+            let dtOpts = {
+
                         "scrollX": true,
                         "processing": true,
                         "serverSide": true,
@@ -224,7 +226,7 @@ export default {
                             }
                         },
                         "ajax": {
-                            "url":this.url+'intsys/onsiteservice/onsite_backend/api/api_loadOnsiteList/'+startDate_filter+'/'+endDate_filter+'/'+workType_filter+'/'+dept_filter+'/'+userProgress_filter+'/'+status_filter,
+                            "url": this.apiUrl('api_loadOnsiteList/'+startDate_filter+'/'+endDate_filter+'/'+workType_filter+'/'+dept_filter+'/'+userProgress_filter+'/'+status_filter),
                         },
                         dom: 'Bfrtip',
                           "buttons": [{
@@ -245,7 +247,10 @@ export default {
                                 orderable: false
                             },
                         ],
-                });
+      };
+      dtOpts = applyPageLengthDefaults('onsiteservice', dtOpts);
+      var table = $('#dataMainList').DataTable(dtOpts);
+      bindPageLengthSave(table, 'onsiteservice');
 
             table.columns().every(function() {
                 var table = this;
@@ -291,7 +296,7 @@ export default {
     getFilterWorkType()
     {
       
-        axios.post(this.url+'intsys/onsiteservice/onsite_backend/api/api_getWorkType',{
+        axios.post(this.apiUrl('api_getWorkType'), {
             action:'getWorkType'
         }).then(res=>{
             console.log(res.data);
@@ -310,7 +315,7 @@ export default {
         });
     },
     getFilterDept(){
-        axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterDept').then(res=>{
+        axios.get(this.apiUrl('api_getFilterDept')).then(res=>{
             console.log(res.data);
             if(res.data.status == "Select Data Success"){
                 let result = res.data.result;
@@ -332,7 +337,7 @@ export default {
         });
     },
     getFilterUserProgress(){
-        axios.get(this.url+'intsys/onsiteservice/onsite_backend/api/api_getFilterUserProgress').then(res=>{
+        axios.get(this.apiUrl('api_getFilterUserProgress')).then(res=>{
             console.log(res.data);
             if(res.data.status == "Select Data Success"){
                 let result = res.data.result;

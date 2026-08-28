@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import { apiUrl } from '@/utils/backend'
 
 Vue.use(Vuex)
 
@@ -24,16 +25,7 @@ export default new Vuex.Store({
     },
     async checkSessionFromBackend({ commit }) {
       try {
-        // Development: ใช้ relative path (proxy จะ forward ไป localhost:8080)
-        // Production: ใช้ absolute URL (รวม port สำหรับทดสอบบน localhost:8080)
-        const apiUrl = process.env.NODE_ENV === 'development'
-          ? '/intsys/onsiteservice/onsite_backend/api/checksession'
-          : (() => {
-              const port = window.location.port ? ':' + window.location.port : '';
-              return window.location.protocol + '//' + window.location.hostname + port + '/intsys/onsiteservice/onsite_backend/api/checksession';
-            })();
-        
-        const response = await axios.post(apiUrl);
+        const response = await axios.post(apiUrl('checksession'));
         
         if (response.data.hasSession && response.data.status === "Session Found") {
           const userData = response.data.userData;
